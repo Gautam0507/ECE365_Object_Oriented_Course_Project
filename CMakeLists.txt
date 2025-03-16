@@ -22,6 +22,7 @@ FetchContent_MakeAvailable(googletest)
 # Doxygen Integration
 find_package(Doxygen REQUIRED dot OPTIONAL_COMPONENTS mscgen dia)
 
+
 if(DOXYGEN_FOUND)
   set(DOXYGEN_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/docs)
   set(DOXYGEN_LAYOUT_FILE ${PROJECT_SOURCE_DIR}/DoxygenLayout.xml)
@@ -65,3 +66,4 @@ else()
 endif()
 
 add_subdirectory(./src) # Adding the source code subdir
+add_subdirectory(./tests) # Adding the test subdirectory
