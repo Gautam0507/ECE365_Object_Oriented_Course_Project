@@ -5,17 +5,19 @@
 #include <iostream>
 #include <ostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 Path::Path(const std::string &filename)
 {
-    bool isParsed = parseFile(filename);
+    bool isLoaded = loadPathFromFile(filename);
     bool isValidPath = validatePath();
+    if (!isLoaded || !isValidPath) {
+        throw std::runtime_error("could not load path from file");
+    }
 }
 
-Path::~Path() {}
-
-bool Path::parseFile(const std::string &filename)
+bool Path::loadPathFromFile(const std::string &filename)
 {
     std::ifstream file(filename);
     if (!file.is_open()) {
@@ -37,6 +39,7 @@ bool Path::parseFile(const std::string &filename)
             }
         }
     }
+
     if (path.empty()) {
         std::cerr << "Error: file " << filename
                   << " does not contain any valid numbers (0 - 4)" << std::endl;
@@ -75,13 +78,13 @@ std::vector<std::string> Path::pathToString() const
                 pathString.push_back("Up");
                 break;
             case 2:
-                pathString.push_back("");
+                pathString.push_back("Right");
                 break;
             case 3:
-                pathString.push_back("Up");
+                pathString.push_back("Down");
                 break;
             case 4:
-                pathString.push_back("Up");
+                pathString.push_back("Left");
                 break;
             case 0:
                 break;
@@ -99,6 +102,25 @@ void Path::printPath() const
     for (int i = 0; i < pathString.size(); ++i) {
         std::cout << "Move " << std::to_string(i) << ": " << pathString[i]
                   << std::endl;
+    }
+}
+
+std::pair<int, int> Path::getMove(int idx) const
+{
+    switch (path[idx]) {
+        case 1:
+            return std::make_pair(-1, 0);
+        case 2:
+            return std::make_pair(0, 1);
+        case 3:
+            return std::make_pair(1, 0);
+        case 4:
+            return std::make_pair(0, -1);
+        case 0:
+            return std::make_pair(0, 0);
+        default:
+            std::cerr << "Got an invalid direction" << std::endl;
+            return std::make_pair(-1, -1);
     }
 }
 

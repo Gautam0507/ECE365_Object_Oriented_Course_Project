@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.24) # CMake version check
 
 project(Maze_solver) 
-
 set(CMAKE_CXX_STANDARD 17) # Enable c++14 standard
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # Export compile commands for clangd
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # googletest requires atleast c++14
