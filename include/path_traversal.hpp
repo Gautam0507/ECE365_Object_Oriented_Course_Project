@@ -28,6 +28,8 @@ class PathTraversal
     bool checkDestination() const;
     bool checkPathEnd() const;
     void printMazeAndPath() const;
+    bool saveMazeAndPath(const std::string& mazeFileName = "maze.txt",
+                         const std::string& pathFileName = "path.txt");
 
    private:
     Path path;

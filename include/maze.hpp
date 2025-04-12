@@ -9,7 +9,6 @@ class Maze
 {
    public:
     Maze(const std::string& filename);
-    void printMaze() const;
     bool loadMazeFromFile(const std::string& filename);
     bool saveMazeToFile(const std::string& filename);
     int getSize() const { return mazeSize; }
@@ -22,5 +21,4 @@ class Maze
     int findSquareRoot(const int n) const;
     void assignMaze(const std::vector<int>& maze1d);
 };
-
 std::ostream& operator<<(std::ostream& os, const Maze& maze);

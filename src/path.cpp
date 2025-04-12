@@ -115,12 +115,12 @@ std::pair<int, int> Path::getMove(int idx) const
     }
 }
 
-void Path::savePathToFile(const std::string& filename)
+bool Path::savePathToFile(const std::string& filename)
 {
     std::ofstream outfile(filename);
     if (!outfile) {
-        throw std::runtime_error("Error: could not open file " + filename);
-        return;
+        std::cerr << "Error: could not open file " << filename << std::endl;
+        return false;
     }
 
     for (size_t i = 0; i < path.size(); ++i) {
@@ -130,6 +130,7 @@ void Path::savePathToFile(const std::string& filename)
         }
     }
     outfile.close();
+    return true;
 }
 
 std::ostream& operator<<(std::ostream& os, const Path& path)

@@ -94,3 +94,25 @@ void PathTraversal::printMazeAndPath() const
     std::cout << maze;
     std::cout << path;
 }
+
+bool PathTraversal::saveMazeAndPath(const std::string& mazeFileName,
+                                    const std::string& pathFileName)
+{
+    bool mazeSaved = maze.saveMazeToFile(mazeFileName);
+    bool pathSaved = path.savePathToFile(pathFileName);
+
+    std::cout << std::endl;
+    if (mazeSaved) {
+        std::cout << "Maze saved to " << mazeFileName << std::endl;
+    } else {
+        std::cerr << "Failed to save maze to " << mazeFileName << std::endl;
+    }
+
+    if (pathSaved) {
+        std::cout << "Path saved to " << pathFileName << std::endl;
+    } else {
+        std::cerr << "Failed to save path to " << pathFileName << std::endl;
+    }
+
+    return mazeSaved && pathSaved;
+}

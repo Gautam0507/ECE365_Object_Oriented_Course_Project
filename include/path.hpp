@@ -7,7 +7,7 @@ class Path
 {
    public:
     Path(const std::string& filename);
-    void savePathToFile(const std::string& filename);
+    bool savePathToFile(const std::string& filename);
     bool loadPathFromFile(const std::string& filename);
     std::pair<int, int> getMove(int idx) const;
     int getSize() const { return path.size(); }
