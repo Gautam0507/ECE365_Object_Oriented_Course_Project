@@ -10,22 +10,22 @@
 
 Maze::Maze(const std::string& filename)
 {
-    bool isLoaded = loadMazeFromFile(filename);
+    bool isLoaded = loadFromFile(filename);
     if (!isLoaded) {
         throw std::runtime_error("Could not load maze from file");
     }
 }
 
-bool Maze::loadMazeFromFile(const std::string& filename)
+bool Maze::loadFromFile(const std::string& filename)
 {
-    std::vector<int> mazeTemp;
+    std::vector<int> mazeData;
 
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Error: could not open file " << filename << std::endl;
         return false;
     }
-    // Loading data into a 1D vector
+
     maze.clear();
 
     std::string line;
@@ -35,30 +35,38 @@ bool Maze::loadMazeFromFile(const std::string& filename)
                 break;
             }
             if (ch == '0' || ch == '1') {
-                mazeTemp.push_back(static_cast<int>(ch - '0'));
+                mazeData.push_back(static_cast<int>(ch - '0'));
+            } else if (ch == ',' || std::isspace(ch)) {
+                // Valid separator, ignore
+                continue;
+            } else {
+                // Invalid character found
+                std::cerr << "Error: invalid character '" << ch
+                          << "' in maze file" << std::endl;
+                return false;
             }
         }
     }
 
-    if (mazeTemp.empty()) {
+    if (mazeData.empty()) {
         std::cerr << "Error: file " << filename
                   << " does not contain any valid numbers (0 - 1)" << std::endl;
         return false;
     }
 
-    if (mazeTemp.at(0) != 1) {
+    if (mazeData.at(0) != 1) {
         std::cerr << "Error: Maze entrance is not a path block" << std::endl;
         return false;
     }
 
     // Checking if the number of values is a perfect square
-    mazeSize = findSquareRoot(mazeTemp.size());
+    mazeSize = findSquareRoot(mazeData.size());
     if (mazeSize == -1) {
         std::cerr << "Error: the number of values " << std::to_string(mazeSize)
                   << " in the file is not a perfect square: " << std::endl;
         return false;
     } else {
-        assignMaze(mazeTemp);
+        populateMazeGrid(mazeData);
     }
     return true;
 }
@@ -69,7 +77,7 @@ int Maze::findSquareRoot(int n) const
     return (root * root == n) ? root : -1;
 }
 
-void Maze::assignMaze(const std::vector<int>& maze1)
+void Maze::populateMazeGrid(const std::vector<int>& maze1)
 {
     maze.resize(mazeSize);
     for (int row = 0; row < mazeSize; ++row) {
@@ -80,7 +88,7 @@ void Maze::assignMaze(const std::vector<int>& maze1)
     }
 }
 
-bool Maze::saveMazeToFile(const std::string& filename)
+bool Maze::saveToFile(const std::string& filename)
 {
     std::ofstream outfile(filename);
     if (!outfile) {
@@ -104,7 +112,7 @@ bool Maze::saveMazeToFile(const std::string& filename)
 std::ostream& operator<<(std::ostream& os, const Maze& maze)
 {
     const std::vector<std::vector<Point>>& mazeData = maze.getMaze();
-    int mazeSize = maze.getSize();
+    int mazeSize = maze.getMazeSize();
 
     os << std::endl;
     os << "The given maze is: " << std::endl;

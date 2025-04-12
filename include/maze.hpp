@@ -9,9 +9,9 @@ class Maze
 {
    public:
     Maze(const std::string& filename);
-    bool loadMazeFromFile(const std::string& filename);
-    bool saveMazeToFile(const std::string& filename);
-    int getSize() const { return mazeSize; }
+    bool loadFromFile(const std::string& filename);
+    bool saveToFile(const std::string& filename);
+    int getMazeSize() const { return mazeSize; }
     Point getPoint(int row, int col) const { return maze.at(row).at(col); }
     const std::vector<std::vector<Point>>& getMaze() const { return maze; }
 
@@ -19,6 +19,6 @@ class Maze
     int mazeSize = 0;
     std::vector<std::vector<Point>> maze;
     int findSquareRoot(const int n) const;
-    void assignMaze(const std::vector<int>& maze1d);
+    void populateMazeGrid(const std::vector<int>& mazeData);
 };
 std::ostream& operator<<(std::ostream& os, const Maze& maze);

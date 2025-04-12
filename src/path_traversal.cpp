@@ -17,8 +17,8 @@ void PathTraversal::markVisited(const Point& point)
 
 bool PathTraversal::checkBounds(int newRow, int newCol) const
 {
-    if (newRow < 0 || newRow > maze.getSize() - 1 || newCol < 0 ||
-        newCol > maze.getSize() - 1) {
+    if (newRow < 0 || newRow > maze.getMazeSize() - 1 || newCol < 0 ||
+        newCol > maze.getMazeSize() - 1) {
         std::cerr << "Error: Out of bounds" << std::endl;
         return false;
     }
@@ -27,7 +27,7 @@ bool PathTraversal::checkBounds(int newRow, int newCol) const
 
 void PathTraversal::makeNextMove()
 {
-    std::pair<int, int> move = path.getMove(curPathidx);
+    std::pair<int, int> move = path.getMove(curPathIdx);
     if (move.first == -1 && move.second == -1) {
         std::cerr << "Error: Invalid move" << std::endl;
         return;
@@ -69,21 +69,22 @@ void PathTraversal::makeNextMove()
     markVisited(nextPoint);
     curPosition = nextPoint;
     if (!checkPathEnd()) {
-        ++curPathidx;
+        ++curPathIdx;
     }
 }
 
 bool PathTraversal::checkDestination() const
 {
-    return curPosition == maze.getPoint(maze.getSize() - 1, maze.getSize() - 1);
+    return curPosition ==
+           maze.getPoint(maze.getMazeSize() - 1, maze.getMazeSize() - 1);
 }
 
 bool PathTraversal::checkPathEnd() const
 {
-    if (curPathidx == path.getSize() - 1) {
+    if (curPathIdx == path.getSize() - 1) {
         return true;
     }
-    if (path.getMove(curPathidx) == std::make_pair(0, 0)) {
+    if (path.getMove(curPathIdx) == std::make_pair(0, 0)) {
         return true;
     }
     return false;
@@ -95,11 +96,11 @@ void PathTraversal::printMazeAndPath() const
     std::cout << path;
 }
 
-bool PathTraversal::saveMazeAndPath(const std::string& mazeFileName,
+void PathTraversal::saveMazeAndPath(const std::string& mazeFileName,
                                     const std::string& pathFileName)
 {
-    bool mazeSaved = maze.saveMazeToFile(mazeFileName);
-    bool pathSaved = path.savePathToFile(pathFileName);
+    bool mazeSaved = maze.saveToFile(mazeFileName);
+    bool pathSaved = path.saveToFile(pathFileName);
 
     std::cout << std::endl;
     if (mazeSaved) {
@@ -113,6 +114,4 @@ bool PathTraversal::saveMazeAndPath(const std::string& mazeFileName,
     } else {
         std::cerr << "Failed to save path to " << pathFileName << std::endl;
     }
-
-    return mazeSaved && pathSaved;
 }

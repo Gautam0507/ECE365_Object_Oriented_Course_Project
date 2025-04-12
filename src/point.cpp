@@ -8,7 +8,7 @@ void Point::setPoint(int r, int c, int val)
 {
     row = r;
     col = c;
-    value = validateValue(val);
+    value = validate(val);
 }
 
 bool Point::operator==(const Point& other) const
@@ -16,7 +16,7 @@ bool Point::operator==(const Point& other) const
     return row == other.row && col == other.col;
 }
 
-Point::PointTypes Point::validateValue(int value)
+Point::PointTypes Point::validate(int value)
 {
     if (value == 0) {
         return PointTypes::noPath;

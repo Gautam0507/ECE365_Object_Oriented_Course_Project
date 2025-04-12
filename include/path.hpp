@@ -7,15 +7,15 @@ class Path
 {
    public:
     Path(const std::string& filename);
-    bool savePathToFile(const std::string& filename);
-    bool loadPathFromFile(const std::string& filename);
+    bool saveToFile(const std::string& filename);
+    bool loadFromFile(const std::string& filename);
     std::pair<int, int> getMove(int idx) const;
     int getSize() const { return path.size(); }
     std::vector<std::string> pathToString() const;
 
    private:
     std::vector<int> path;
-    bool validatePath() const;
+    bool validate() const;
 };
 
 std::ostream& operator<<(std::ostream& os, const Path& path);

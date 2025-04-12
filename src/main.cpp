@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
                       << std::endl;
         }
 
-        pathTraversal.saveMazeAndPath();
+        pathTraversal.saveMazeAndPath("maze.txt", "path.txt");
 
         return success ? 0 : 1;
     } catch (const std::exception& e) {

@@ -10,14 +10,14 @@
 
 Path::Path(const std::string& filename)
 {
-    bool isLoaded = loadPathFromFile(filename);
-    bool isValidPath = validatePath();
+    bool isLoaded = loadFromFile(filename);
+    bool isValidPath = validate();
     if (!isLoaded || !isValidPath) {
         throw std::runtime_error("Could not load path from file");
     }
 }
 
-bool Path::loadPathFromFile(const std::string& filename)
+bool Path::loadFromFile(const std::string& filename)
 {
     std::ifstream file(filename);
     if (!file.is_open()) {
@@ -36,6 +36,14 @@ bool Path::loadPathFromFile(const std::string& filename)
             }
             if (ch >= '0' && ch <= '4') {
                 path.push_back(ch - '0');
+            } else if (ch == ',' || std::isspace(ch)) {
+                // Valid separator, ignore
+                continue;
+            } else {
+                // Invalid character found
+                std::cerr << "Error: invalid character '" << ch
+                          << "' in path file" << std::endl;
+                return false;
             }
         }
     }
@@ -48,7 +56,7 @@ bool Path::loadPathFromFile(const std::string& filename)
     return true;
 }
 
-bool Path::validatePath() const
+bool Path::validate() const
 {
     bool zeroFound = false;
     for (int value : path) {
@@ -115,7 +123,7 @@ std::pair<int, int> Path::getMove(int idx) const
     }
 }
 
-bool Path::savePathToFile(const std::string& filename)
+bool Path::saveToFile(const std::string& filename)
 {
     std::ofstream outfile(filename);
     if (!outfile) {

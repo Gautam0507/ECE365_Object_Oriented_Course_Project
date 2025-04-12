@@ -14,8 +14,8 @@ class PathTraversal
                   const std::string& pathFileName)
         : maze(mazeFileName), path(pathFileName)
     {
-        int size = maze.getSize();
-        visited.resize(size, std::vector<bool>(size, false));
+        int mazeSize = maze.getMazeSize();
+        visited.resize(mazeSize, std::vector<bool>(mazeSize, false));
         curPosition = maze.getPoint(0, 0);
         visited[curPosition.getRow()][curPosition.getCol()] = true;
     };
@@ -28,7 +28,7 @@ class PathTraversal
     bool checkDestination() const;
     bool checkPathEnd() const;
     void printMazeAndPath() const;
-    bool saveMazeAndPath(const std::string& mazeFileName = "maze.txt",
+    void saveMazeAndPath(const std::string& mazeFileName = "maze.txt",
                          const std::string& pathFileName = "path.txt");
 
    private:
@@ -36,5 +36,5 @@ class PathTraversal
     Maze maze;
     std::vector<std::vector<bool>> visited;
     Point curPosition;
-    int curPathidx = 0;
+    int curPathIdx = 0;
 };
