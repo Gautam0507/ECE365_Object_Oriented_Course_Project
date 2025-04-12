@@ -8,16 +8,16 @@
 #include <utility>
 #include <vector>
 
-Path::Path(const std::string &filename)
+Path::Path(const std::string& filename)
 {
     bool isLoaded = loadPathFromFile(filename);
     bool isValidPath = validatePath();
     if (!isLoaded || !isValidPath) {
-        throw std::runtime_error("could not load path from file");
+        throw std::runtime_error("Could not load path from file");
     }
 }
 
-bool Path::loadPathFromFile(const std::string &filename)
+bool Path::loadPathFromFile(const std::string& filename)
 {
     std::ifstream file(filename);
     if (!file.is_open()) {
@@ -95,16 +95,6 @@ std::vector<std::string> Path::pathToString() const
     return pathString;
 }
 
-void Path::printPath() const
-{
-    std::vector<std::string> pathString = pathToString();
-    std::cout << "The path to be taken by the user: " << std::endl;
-    for (int i = 0; i < pathString.size(); ++i) {
-        std::cout << "Move " << std::to_string(i) << ": " << pathString[i]
-                  << std::endl;
-    }
-}
-
 std::pair<int, int> Path::getMove(int idx) const
 {
     switch (path[idx]) {
@@ -119,16 +109,17 @@ std::pair<int, int> Path::getMove(int idx) const
         case 0:
             return std::make_pair(0, 0);
         default:
-            std::cerr << "Got an invalid direction" << std::endl;
+            throw std::runtime_error("Invalid direction" +
+                                     std::to_string(path[idx]));
             return std::make_pair(-1, -1);
     }
 }
 
-void Path::savePathToFile(const std::string &filename)
+void Path::savePathToFile(const std::string& filename)
 {
     std::ofstream outfile(filename);
     if (!outfile) {
-        std::cout << "The output file cannot be created";
+        throw std::runtime_error("Error: could not open file " + filename);
         return;
     }
 
@@ -139,4 +130,17 @@ void Path::savePathToFile(const std::string &filename)
         }
     }
     outfile.close();
+}
+
+std::ostream& operator<<(std::ostream& os, const Path& path)
+{
+    std::vector<std::string> pathString = path.pathToString();
+
+    os << std::endl << "The path to be taken by the user: " << std::endl;
+    for (int i = 0; i < pathString.size(); ++i) {
+        os << "Move " << std::to_string(i) << ": " << pathString[i]
+           << std::endl;
+    }
+    os << std::endl;
+    return os;
 }

@@ -27,6 +27,7 @@ class PathTraversal
     bool checkBounds(int newRow, int newCol) const;
     bool checkDestination() const;
     bool checkPathEnd() const;
+    void printMazeAndPath() const;
 
    private:
     Path path;

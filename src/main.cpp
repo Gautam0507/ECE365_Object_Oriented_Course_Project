@@ -2,7 +2,6 @@
 #include <stdexcept>
 #include <string>
 
-#include "maze.hpp"
 #include "path_traversal.hpp"
 
 int main(int argc, char *argv[])
@@ -16,6 +15,8 @@ int main(int argc, char *argv[])
     std::string pathFileName = argv[2];
 
     PathTraversal pathTraversal(mazeFileName, pathFileName);
+    pathTraversal.printMazeAndPath();
+
     while (!pathTraversal.checkDestination() || !pathTraversal.checkPathEnd()) {
         try {
             pathTraversal.makeNextMove();

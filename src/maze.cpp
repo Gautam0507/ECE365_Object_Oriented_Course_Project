@@ -8,13 +8,11 @@
 #include <string>
 #include <vector>
 
-#include "point.hpp"
-
 Maze::Maze(const std::string& filename)
 {
     bool isLoaded = loadMazeFromFile(filename);
     if (!isLoaded) {
-        throw std::runtime_error("could not load maze from file");
+        throw std::runtime_error("Could not load maze from file");
     }
 }
 
@@ -82,20 +80,6 @@ void Maze::assignMaze(const std::vector<int>& maze1)
     }
 }
 
-void Maze::printMaze() const
-{
-    std::cout << std::endl;
-    for (int row = 0; row < mazeSize; ++row) {
-        for (int col = 0; col < mazeSize; ++col) {
-            maze[row][col].printPoint();
-            if (col != mazeSize - 1) {
-                std::cout << ",";
-            }
-        }
-        std::cout << std::endl;
-    }
-}
-
 bool Maze::saveMazeToFile(const std::string& filename)
 {
     std::ofstream outfile(filename);
@@ -115,4 +99,23 @@ bool Maze::saveMazeToFile(const std::string& filename)
         outfile << std::endl;
     }
     return true;
+}
+
+std::ostream& operator<<(std::ostream& os, const Maze& maze)
+{
+    const std::vector<std::vector<Point>>& mazeData = maze.getMaze();
+    int mazeSize = maze.getSize();
+
+    os << std::endl;
+    os << "The given maze is: " << std::endl;
+    for (int row = 0; row < mazeSize; ++row) {
+        for (int col = 0; col < mazeSize; ++col) {
+            os << mazeData[row][col];
+            if (col != mazeSize - 1) {
+                os << ",";
+            }
+        }
+        os << std::endl;
+    }
+    return os;
 }

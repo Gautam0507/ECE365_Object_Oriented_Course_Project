@@ -88,3 +88,9 @@ bool PathTraversal::checkPathEnd() const
     }
     return false;
 }
+
+void PathTraversal::printMazeAndPath() const
+{
+    std::cout << maze;
+    std::cout << path;
+}

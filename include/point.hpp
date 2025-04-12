@@ -20,7 +20,6 @@ class Point
     int getCol() const { return col; }
     void setPoint(int r, int c, int val);
     bool operator==(const Point& other) const;
-    void printPoint() const;
 
    private:
     int row;
@@ -29,4 +28,4 @@ class Point
     static PointTypes validateValue(int value);
 };
 
-std::ostream& operator<<(std::ostream& out, Point::PointTypes type);
+std::ostream& operator<<(std::ostream& os, const Point& point);
