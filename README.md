@@ -1,7 +1,5 @@
 # ECE365_Object_Oriented_Course_Project
 
-# C++ Maze Path Validation
-
 This project implements a maze path validation system that checks whether a given path can successfully navigate from the starting point to the destination in a grid-based maze.
 
 ## Overview
@@ -28,6 +26,11 @@ The maze path validation system consists of several core components:
   - 3: Down
   - 4: Left
 - The path must end with a stop direction (0)
+
+### Syntax for both files 
+- Values must be comma-separated or whitespace-separated
+- Lines starting with '#' are treated as comments and ignored
+- No other special characters should be used, as they will cause parsing errors
 
 # Installation and Build Instructions
 
