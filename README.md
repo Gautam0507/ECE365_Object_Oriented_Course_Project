@@ -58,13 +58,16 @@ g++ -std=c++11 -o Maze_solver src/*.cpp -Iinclude
 ```bash
 # Generate build system
 cmake -S . -B build
-
+```
+```bash
 # Build the project
 cmake --build build
-
+```
+```bash
 # Run the program
 ./build/src/Maze_solver <maze_file> <path_file>
-
+```
+```bash
 # Example usage with sample files
 ./build/src/Maze_solver maze.txt path.txt
 ```
@@ -112,7 +115,3 @@ The test cases cover error handling, path validation, and various edge cases lik
 - Path validation failures
 - Boundary violations
 - Revisiting cells
-
-
-
-
