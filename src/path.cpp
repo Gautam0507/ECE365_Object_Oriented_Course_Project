@@ -30,10 +30,35 @@ bool Path::loadFromFile(const std::string& filename)
     path.clear();
 
     std::string line;
+    bool foundPathLine = false;
+    int lineNumber = 0;
+
     while (std::getline(file, line)) {
+        lineNumber++;
+
+        // Skip empty lines
+        if (line.empty()) {
+            continue;
+        }
+
+        // Skip comment lines
+        if (line[0] == '#') {
+            continue;
+        }
+
+        // If we already found a path line, this is an error
+        if (foundPathLine) {
+            std::cerr << "Error: multiple path lines found in file " << filename
+                      << " at line " << lineNumber << std::endl;
+            return false;
+        }
+
+        // This is the first non-comment line - should contain the path
+        foundPathLine = true;
+
         for (char ch : line) {
             if (ch == '#') {
-                break;
+                break;  // Rest of line is a comment
             }
             if (ch >= '0' && ch <= '4') {
                 int value = ch - '0';
@@ -44,7 +69,8 @@ bool Path::loadFromFile(const std::string& filename)
             } else {
                 // Invalid character found
                 std::cerr << "Error: invalid character '" << ch
-                          << "' in path file" << std::endl;
+                          << "' in path file at line " << lineNumber
+                          << std::endl;
                 return false;
             }
         }
@@ -149,6 +175,7 @@ bool Path::saveToFile(const std::string& filename)
             outfile << ",";
         }
     }
+    outfile << std::endl;
     outfile.close();
     return true;
 }

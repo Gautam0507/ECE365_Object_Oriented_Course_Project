@@ -20,10 +20,10 @@ class Path
     bool loadFromFile(const std::string& filename);
     std::pair<int, int> getMove(int idx) const;
     int getSize() const { return path.size(); }
-    std::vector<std::string> pathToString() const;
 
    private:
     std::vector<Direction> path;
+    std::vector<std::string> pathToString() const;
     bool validate() const;
 };
 

@@ -30,13 +30,6 @@ bool PathTraversal::checkBounds(int newRow, int newCol) const
 
 void PathTraversal::makeNextMove()
 {
-    if (checkDestination()) {
-        throw std::logic_error(
-            "Path continues after reaching the destination at position [" +
-            std::to_string(curPosition.getRow()) + "," +
-            std::to_string(curPosition.getCol()) + "]");
-    }
-
     std::pair<int, int> move;
     try {
         move = path.getMove(curPathIdx);
@@ -81,8 +74,25 @@ void PathTraversal::makeNextMove()
             "] places the position in a previously visited cell");
     }
 
+    /*if (checkDestination()) {*/
+    /*    std::cout << "Current idx: " << curPathIdx << std::endl;*/
+    /*}*/
+
     markVisited(nextPoint);
     curPosition = nextPoint;
+
+    if (checkDestination()) {
+        for (int i = curPathIdx + 1; i < path.getSize(); i++) {
+            std::pair<int, int> futureMove = path.getMove(i);
+            if (futureMove != std::make_pair(0, 0)) {
+                throw std::logic_error(
+                    "Path contains non-Stop move after reaching the "
+                    "destination at position [" +
+                    std::to_string(curPosition.getRow()) + "," +
+                    std::to_string(curPosition.getCol()) + "]");
+            }
+        }
+    }
     if (!checkPathEnd()) {
         ++curPathIdx;
     }

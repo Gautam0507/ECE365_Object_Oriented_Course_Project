@@ -61,7 +61,7 @@ bool Maze::loadFromFile(const std::string& filename)
     mazeSize = findSquareRoot(mazeData.size());
     if (mazeSize == -1) {
         std::cerr << "Error: the number of values " << mazeData.size()
-                  << " in the file is not a perfect square" << std::endl;
+                  << " in the file does not form a square maze." << std::endl;
         return false;
     } else {
         populateMazeGrid(mazeData);

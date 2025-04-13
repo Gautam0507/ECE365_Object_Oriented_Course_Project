@@ -12,7 +12,7 @@ class Maze
     bool loadFromFile(const std::string& filename);
     bool saveToFile(const std::string& filename);
     int getMazeSize() const { return mazeSize; }
-    Point getPoint(int row, int col) const { return maze.at(row).at(col); }
+    Point getPoint(int row, int col) const;
     const std::vector<std::vector<Point>>& getMaze() const { return maze; }
 
    private:

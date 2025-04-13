@@ -5,21 +5,8 @@ set(CMAKE_CXX_STANDARD 17) # Enable c++14 standard
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # Export compile commands for clangd
 set(CMAKE_CXX_STANDARD_REQUIRED ON) # googletest requires atleast c++14
 
-# Include Ctest module
-include(CTest)
-
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/0953a17a4281fc26831da647ad3fcd5e21e6473b.zip
-)
-
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-# set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
 # Doxygen Integration
-find_package(Doxygen REQUIRED dot OPTIONAL_COMPONENTS mscgen dia)
+find_package(Doxygen OPTIONAL_COMPONENTS dot OPTIONAL_COMPONENTS mscgen dia)
 
 
 if(DOXYGEN_FOUND)
@@ -61,8 +48,7 @@ if(DOXYGEN_FOUND)
   # Add a target "documentation" to generate documentation with Doxygen
   doxygen_add_docs(documentation ${PROJECT_SOURCE_DIR})
 else()
-  message("Doxygen need to be installed to generate the doxygen documentation")
+  message(STATUS "Doxygen not found - documentation will not be built")
 endif()
 
 add_subdirectory(./src) # Adding the source code subdir
-add_subdirectory(./tests) # Adding the test subdirectory

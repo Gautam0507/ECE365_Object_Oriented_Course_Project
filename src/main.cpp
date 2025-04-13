@@ -21,18 +21,15 @@ int main(int argc, char* argv[])
             pathTraversal.makeNextMove();
         }
 
-        // Report result
-        bool success = pathTraversal.checkDestination();
-        if (success) {
-            std::cout << "Destination reached!" << std::endl;
-        } else {
-            std::cerr << "Path ended without reaching the destination."
+        if (!pathTraversal.checkDestination()) {
+            std::cerr << "Error: Path ended without reaching the destination."
                       << std::endl;
+            return 1;
         }
 
+        std::cout << "Destination reached!" << std::endl;
         pathTraversal.saveMazeAndPath("maze.txt", "path.txt");
-
-        return success ? 0 : 1;
+        return 0;
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
         return 1;

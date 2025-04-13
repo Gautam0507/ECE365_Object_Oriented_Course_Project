@@ -20,10 +20,7 @@ class PathTraversal
         visited[curPosition.getRow()][curPosition.getCol()] = true;
     };
     Point getCurPosition() const { return curPosition; }
-
-    bool checkVisited(const Point& point) const;
     void makeNextMove();
-    bool checkBounds(int newRow, int newCol) const;
     bool checkDestination() const;
     bool checkPathEnd() const;
     void printMazeAndPath() const;
@@ -31,10 +28,12 @@ class PathTraversal
                          const std::string& pathFileName = "path.txt");
 
    private:
-    Path path;
     Maze maze;
+    Path path;
     std::vector<std::vector<bool>> visited;
     Point curPosition;
     int curPathIdx = 0;
     void markVisited(const Point& point);
+    bool checkVisited(const Point& point) const;
+    bool checkBounds(int newRow, int newCol) const;
 };
