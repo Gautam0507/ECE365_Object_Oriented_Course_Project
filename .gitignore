@@ -1,3 +1,4 @@
 build
 .cache/clangd/index
 docs/html
+codecompanion-workspace.json

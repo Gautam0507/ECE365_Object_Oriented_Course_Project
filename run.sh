@@ -1,7 +1,23 @@
 #!/bin/sh
 
-# Path to the executable
-EXECUTABLE="./build/src/Maze_solver"
+# Possible executable paths
+CMAKE_EXECUTABLE="./build/src/Maze_solver"
+DIRECT_EXECUTABLE="./Maze_solver"
+
+# Choose executable based on availability
+if [ -f "$CMAKE_EXECUTABLE" ]; then
+    EXECUTABLE="$CMAKE_EXECUTABLE"
+    echo "Using CMake build executable: $EXECUTABLE"
+elif [ -f "$DIRECT_EXECUTABLE" ]; then
+    EXECUTABLE="$DIRECT_EXECUTABLE"
+    echo "Using directly compiled executable: $EXECUTABLE"
+else
+    echo "Error: No executable found. Please build the project first."
+    echo "Options:"
+    echo "  - CMake: cmake -S . -B build && cmake --build build"
+    echo "  - Direct: g++ -std=c++11 -o Maze_solver src/*.cpp -Iinclude"
+    exit 1
+fi
 
 # Directory containing test cases
 TEST_DIR="./tests"
@@ -13,6 +29,7 @@ LOG_FILE="maze_solver_results.log"
 echo "Maze Solver Test Results" > "$LOG_FILE"
 echo "========================" >> "$LOG_FILE"
 echo "Date: $(date)" >> "$LOG_FILE"
+echo "Executable: $EXECUTABLE" >> "$LOG_FILE"
 echo "" >> "$LOG_FILE"
 
 # Check if executable exists
