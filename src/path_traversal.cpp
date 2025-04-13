@@ -12,6 +12,7 @@ bool PathTraversal::checkVisited(const Point& point) const
 
 void PathTraversal::markVisited(const Point& point)
 {
+    // check is done right before calling the function
     visited[point.getRow()][point.getCol()] = true;
 }
 
@@ -19,7 +20,9 @@ bool PathTraversal::checkBounds(int newRow, int newCol) const
 {
     if (newRow < 0 || newRow > maze.getMazeSize() - 1 || newCol < 0 ||
         newCol > maze.getMazeSize() - 1) {
-        std::cerr << "Error: Out of bounds" << std::endl;
+        std::cerr << "Error: Position [" << newRow << "," << newCol
+                  << "] is out of bounds. Maze size is " << maze.getMazeSize()
+                  << "x" << maze.getMazeSize() << std::endl;
         return false;
     }
     return true;
@@ -28,13 +31,18 @@ bool PathTraversal::checkBounds(int newRow, int newCol) const
 void PathTraversal::makeNextMove()
 {
     if (checkDestination()) {
-        throw std::runtime_error(
-            "Error: Path continues after reaching the destination");
+        throw std::logic_error(
+            "Path continues after reaching the destination at position [" +
+            std::to_string(curPosition.getRow()) + "," +
+            std::to_string(curPosition.getCol()) + "]");
     }
-    std::pair<int, int> move = path.getMove(curPathIdx);
-    if (move.first == -1 && move.second == -1) {
-        std::cerr << "Error: Invalid move" << std::endl;
-        return;
+
+    std::pair<int, int> move;
+    try {
+        move = path.getMove(curPathIdx);
+    } catch (const std::exception& e) {
+        throw std::runtime_error("Failed to get move at path index " +
+                                 std::to_string(curPathIdx) + ": " + e.what());
     }
 
     int newRow = curPosition.getRow() + move.first;
@@ -42,32 +50,35 @@ void PathTraversal::makeNextMove()
 
     bool isWithinBounds = checkBounds(newRow, newCol);
     if (!isWithinBounds) {
-        std::cerr << "Error: Out of bounds" << std::endl;
-        std::cerr << "Current position: " << newRow << ", " << newCol
-                  << std::endl;
-        throw std::runtime_error("Error: Out of bounds");
-
-        return;
+        throw std::out_of_range(
+            "Move from [" + std::to_string(curPosition.getRow()) + "," +
+            std::to_string(curPosition.getCol()) + "] to [" +
+            std::to_string(newRow) + "," + std::to_string(newCol) +
+            "] is out of maze bounds");
     }
 
-    Point nextPoint = maze.getPoint(newRow, newCol);
+    Point nextPoint;
+    try {
+        nextPoint = maze.getPoint(newRow, newCol);
+    } catch (const std::exception& e) {
+        throw std::runtime_error("Failed to get maze point at [" +
+                                 std::to_string(newRow) + "," +
+                                 std::to_string(newCol) + "]: " + e.what());
+    }
 
     bool isPath = nextPoint.isPath();
     if (!isPath) {
-        std::cout << "Error: The move places the position in a no path cell"
-                  << std::endl;
-        throw std::runtime_error(
-            "Error: The move places the position in a no path cell");
-        return;
+        throw std::invalid_argument(
+            "Move to position [" + std::to_string(newRow) + "," +
+            std::to_string(newCol) + "] places the position in a no-path cell");
     }
 
     bool isVisited = checkVisited(nextPoint);
     if (isVisited) {
-        std::cout << "Error: The move places the position in a visited cell"
-                  << std::endl;
-        throw std::runtime_error(
-            "Error: The move places the position in a visited cell");
-        return;
+        throw std::invalid_argument(
+            "Move to position [" + std::to_string(newRow) + "," +
+            std::to_string(newCol) +
+            "] places the position in a previously visited cell");
     }
 
     markVisited(nextPoint);

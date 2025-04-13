@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <ostream>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -13,7 +14,7 @@ Path::Path(const std::string& filename)
     bool isLoaded = loadFromFile(filename);
     bool isValidPath = validate();
     if (!isLoaded || !isValidPath) {
-        throw std::runtime_error("Could not load path from file");
+        throw std::runtime_error("Could not load path from file: " + filename);
     }
 }
 
@@ -60,11 +61,12 @@ bool Path::loadFromFile(const std::string& filename)
 bool Path::validate() const
 {
     bool stopFound = false;
-    for (Direction dir : path) {
+    for (size_t i = 0; i < path.size(); ++i) {
+        Direction dir = path[i];
         int value = static_cast<int>(dir);
         if (value < 0 || value > 4) {
             std::cerr << "Error: path contains invalid value " << value
-                      << std::endl;
+                      << " at position " << i << std::endl;
             return false;
         }
         if (dir == Direction::Stop) {
@@ -72,7 +74,8 @@ bool Path::validate() const
         }
         if (stopFound && dir != Direction::Stop) {
             std::cerr << "Error: path contains value " << static_cast<int>(dir)
-                      << " after a zero value" << std::endl;
+                      << " at position " << i << " after a zero value"
+                      << std::endl;
             return false;
         }
     }
@@ -99,8 +102,8 @@ std::vector<std::string> Path::pathToString() const
             case Direction::Stop:
                 break;
             default:
-                pathString.push_back("Invalid value:" +
-                                     std::to_string(static_cast<int>(dir)));
+                throw std::logic_error("Invalid direction value: " +
+                                       std::to_string(static_cast<int>(dir)));
         }
     }
     return pathString;
@@ -108,6 +111,12 @@ std::vector<std::string> Path::pathToString() const
 
 std::pair<int, int> Path::getMove(int idx) const
 {
+    if (idx < 0 || idx >= static_cast<int>(path.size())) {
+        throw std::out_of_range(
+            "Path index out of range: " + std::to_string(idx) +
+            " (valid range: 0 to " + std::to_string(path.size() - 1) + ")");
+    }
+
     switch (path[idx]) {
         case Direction::Up:
             return std::make_pair(-1, 0);
@@ -120,10 +129,8 @@ std::pair<int, int> Path::getMove(int idx) const
         case Direction::Stop:
             return std::make_pair(0, 0);
         default:
-            throw std::runtime_error(
-                "Invalid direction" +
-                std::to_string(static_cast<int>(path[idx])));
-            return std::make_pair(-1, -1);
+            throw std::logic_error("Invalid direction value: " +
+                                   std::to_string(static_cast<int>(path[idx])));
     }
 }
 
@@ -131,7 +138,8 @@ bool Path::saveToFile(const std::string& filename)
 {
     std::ofstream outfile(filename);
     if (!outfile) {
-        std::cerr << "Error: could not open file " << filename << std::endl;
+        std::cerr << "Error: could not open file " << filename << " for writing"
+                  << std::endl;
         return false;
     }
 

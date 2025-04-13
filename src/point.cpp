@@ -23,7 +23,9 @@ Point::PointTypes Point::validate(int value)
     } else if (value == 1) {
         return PointTypes::path;
     } else {
-        throw std::runtime_error("Invalid Value is passed into the program");
+        throw std::invalid_argument(
+            "Invalid point value: " + std::to_string(value) +
+            ". Expected 0 (noPath) or 1 (path)");
     }
 }
 
@@ -37,7 +39,7 @@ std::ostream& operator<<(std::ostream& os, const Point& point)
             os << "[ ]";
             break;
         default:
-            os << "Invalid value";
+            os << "[?]";
             break;
     }
     return os;

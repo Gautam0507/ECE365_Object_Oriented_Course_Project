@@ -10,9 +10,8 @@
 
 Maze::Maze(const std::string& filename)
 {
-    bool isLoaded = loadFromFile(filename);
-    if (!isLoaded) {
-        throw std::runtime_error("Could not load maze from file");
+    if (!loadFromFile(filename)) {
+        throw std::runtime_error("Could not load maze from file: " + filename);
     }
 }
 
@@ -40,7 +39,6 @@ bool Maze::loadFromFile(const std::string& filename)
                 // Valid separator, ignore
                 continue;
             } else {
-                // Invalid character found
                 std::cerr << "Error: invalid character '" << ch
                           << "' in maze file" << std::endl;
                 return false;
@@ -62,8 +60,8 @@ bool Maze::loadFromFile(const std::string& filename)
     // Checking if the number of values is a perfect square
     mazeSize = findSquareRoot(mazeData.size());
     if (mazeSize == -1) {
-        std::cerr << "Error: the number of values " << std::to_string(mazeSize)
-                  << " in the file is not a perfect square: " << std::endl;
+        std::cerr << "Error: the number of values " << mazeData.size()
+                  << " in the file is not a perfect square" << std::endl;
         return false;
     } else {
         populateMazeGrid(mazeData);
@@ -92,7 +90,8 @@ bool Maze::saveToFile(const std::string& filename)
 {
     std::ofstream outfile(filename);
     if (!outfile) {
-        std::cerr << "Error: could not open file " << filename << std::endl;
+        std::cerr << "Error: could not open file " << filename << " for writing"
+                  << std::endl;
         return false;
     }
 
@@ -107,6 +106,16 @@ bool Maze::saveToFile(const std::string& filename)
         outfile << std::endl;
     }
     return true;
+}
+
+Point Maze::getPoint(int row, int col) const
+{
+    if (row < 0 || row >= mazeSize || col < 0 || col >= mazeSize) {
+        throw std::out_of_range(
+            "Maze coordinates out of range: [" + std::to_string(row) + "," +
+            std::to_string(col) + "], maze size: " + std::to_string(mazeSize));
+    }
+    return maze.at(row).at(col);
 }
 
 std::ostream& operator<<(std::ostream& os, const Maze& maze)

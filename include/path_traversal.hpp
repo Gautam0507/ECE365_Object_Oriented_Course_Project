@@ -22,7 +22,6 @@ class PathTraversal
     Point getCurPosition() const { return curPosition; }
 
     bool checkVisited(const Point& point) const;
-    void markVisited(const Point& point);
     void makeNextMove();
     bool checkBounds(int newRow, int newCol) const;
     bool checkDestination() const;
@@ -37,4 +36,5 @@ class PathTraversal
     std::vector<std::vector<bool>> visited;
     Point curPosition;
     int curPathIdx = 0;
+    void markVisited(const Point& point);
 };
