@@ -35,7 +35,8 @@ bool Path::loadFromFile(const std::string& filename)
                 break;
             }
             if (ch >= '0' && ch <= '4') {
-                path.push_back(ch - '0');
+                int value = ch - '0';
+                path.push_back(static_cast<Direction>(value));
             } else if (ch == ',' || std::isspace(ch)) {
                 // Valid separator, ignore
                 continue;
@@ -58,18 +59,19 @@ bool Path::loadFromFile(const std::string& filename)
 
 bool Path::validate() const
 {
-    bool zeroFound = false;
-    for (int value : path) {
+    bool stopFound = false;
+    for (Direction dir : path) {
+        int value = static_cast<int>(dir);
         if (value < 0 || value > 4) {
             std::cerr << "Error: path contains invalid value " << value
                       << std::endl;
             return false;
         }
-        if (value == 0) {
-            zeroFound = true;
+        if (dir == Direction::Stop) {
+            stopFound = true;
         }
-        if (zeroFound && value != 0) {
-            std::cerr << "Error: path contains value " << value
+        if (stopFound && dir != Direction::Stop) {
+            std::cerr << "Error: path contains value " << static_cast<int>(dir)
                       << " after a zero value" << std::endl;
             return false;
         }
@@ -80,24 +82,25 @@ bool Path::validate() const
 std::vector<std::string> Path::pathToString() const
 {
     std::vector<std::string> pathString;
-    for (int value : path) {
-        switch (value) {
-            case 1:
+    for (Direction dir : path) {
+        switch (dir) {
+            case Direction::Up:
                 pathString.push_back("Up");
                 break;
-            case 2:
+            case Direction::Right:
                 pathString.push_back("Right");
                 break;
-            case 3:
+            case Direction::Down:
                 pathString.push_back("Down");
                 break;
-            case 4:
+            case Direction::Left:
                 pathString.push_back("Left");
                 break;
-            case 0:
+            case Direction::Stop:
                 break;
             default:
-                pathString.push_back("Invalid value:" + std::to_string(value));
+                pathString.push_back("Invalid value:" +
+                                     std::to_string(static_cast<int>(dir)));
         }
     }
     return pathString;
@@ -106,19 +109,20 @@ std::vector<std::string> Path::pathToString() const
 std::pair<int, int> Path::getMove(int idx) const
 {
     switch (path[idx]) {
-        case 1:
+        case Direction::Up:
             return std::make_pair(-1, 0);
-        case 2:
+        case Direction::Right:
             return std::make_pair(0, 1);
-        case 3:
+        case Direction::Down:
             return std::make_pair(1, 0);
-        case 4:
+        case Direction::Left:
             return std::make_pair(0, -1);
-        case 0:
+        case Direction::Stop:
             return std::make_pair(0, 0);
         default:
-            throw std::runtime_error("Invalid direction" +
-                                     std::to_string(path[idx]));
+            throw std::runtime_error(
+                "Invalid direction" +
+                std::to_string(static_cast<int>(path[idx])));
             return std::make_pair(-1, -1);
     }
 }
@@ -132,7 +136,7 @@ bool Path::saveToFile(const std::string& filename)
     }
 
     for (size_t i = 0; i < path.size(); ++i) {
-        outfile << path[i];
+        outfile << static_cast<int>(path[i]);
         if (i != path.size() - 1) {
             outfile << ",";
         }

@@ -6,6 +6,15 @@
 class Path
 {
    public:
+    enum class Direction
+    {
+        Stop = 0,
+        Up = 1,
+        Right = 2,
+        Down = 3,
+        Left = 4
+    };
+
     Path(const std::string& filename);
     bool saveToFile(const std::string& filename);
     bool loadFromFile(const std::string& filename);
@@ -14,7 +23,7 @@ class Path
     std::vector<std::string> pathToString() const;
 
    private:
-    std::vector<int> path;
+    std::vector<Direction> path;
     bool validate() const;
 };
 

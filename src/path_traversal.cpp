@@ -27,6 +27,10 @@ bool PathTraversal::checkBounds(int newRow, int newCol) const
 
 void PathTraversal::makeNextMove()
 {
+    if (checkDestination()) {
+        throw std::runtime_error(
+            "Error: Path continues after reaching the destination");
+    }
     std::pair<int, int> move = path.getMove(curPathIdx);
     if (move.first == -1 && move.second == -1) {
         std::cerr << "Error: Invalid move" << std::endl;
