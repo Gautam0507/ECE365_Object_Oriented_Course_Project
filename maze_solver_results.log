@@ -1,0 +1,363 @@
+Maze Solver Test Results
+========================
+Date: Sun Apr 13 08:35:52 AM IST 2025
+
+Running 16 test cases...
+
+Test Case 00: Test00_FilesDontExistOrWrongFormat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test00_FilesDontExistOrWrongFormat/Maze2D.datNOTFOUND ./tests/Test00_FilesDontExistOrWrongFormat/Path1D.dat
+Output:
+Error: could not open file ./tests/Test00_FilesDontExistOrWrongFormat/Maze2D.datNOTFOUND
+Error: Could not load maze from file: ./tests/Test00_FilesDontExistOrWrongFormat/Maze2D.datNOTFOUND
+Exit Status: 1
+
+Running: ./build/src/Maze_solver ./tests/Test00_FilesDontExistOrWrongFormat/Maze2D.dat ./tests/Test00_FilesDontExistOrWrongFormat/Path1D.datNOTFOUND
+Output:
+Error: could not open file ./tests/Test00_FilesDontExistOrWrongFormat/Path1D.datNOTFOUND
+Error: Could not load path from file: ./tests/Test00_FilesDontExistOrWrongFormat/Path1D.datNOTFOUND
+Exit Status: 1
+
+Running: ./build/src/Maze_solver ./tests/Test00_FilesDontExistOrWrongFormat/Path1D.dat ./tests/Test00_FilesDontExistOrWrongFormat/Maze2D.dat
+Output:
+Error: invalid character '2' in maze file
+Error: Could not load maze from file: ./tests/Test00_FilesDontExistOrWrongFormat/Path1D.dat
+Exit Status: 1
+x Test 00 ran all file error cases
+
+==============================
+
+Test Case 01: Test01_NormalCase_GOOD
+Maze File: ./tests/Test01_NormalCase_GOOD/Maze2D.dat
+Path File: ./tests/Test01_NormalCase_GOOD/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test01_NormalCase_GOOD/Maze2D.dat ./tests/Test01_NormalCase_GOOD/Path1D.dat
+Output:
+
+The given maze is: 
+[ ],[ ],[X],[X]
+[X],[ ],[ ],[ ]
+[X],[ ],[ ],[ ]
+[X],[X],[X],[ ]
+
+The path to be taken by the user: 
+Move 0: Right
+Move 1: Down
+Move 2: Down
+Move 3: Right
+Move 4: Up
+Move 5: Right
+Move 6: Down
+Move 7: Down
+
+Destination reached!
+
+Maze saved to maze.txt
+Path saved to path.txt
+Exit Status: 0
+✓ Test 01 passed
+
+==============================
+
+Test Case 02: Test02_RevisitingCell
+Maze File: ./tests/Test02_RevisitingCell/Maze2D.dat
+Path File: ./tests/Test02_RevisitingCell/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test02_RevisitingCell/Maze2D.dat ./tests/Test02_RevisitingCell/Path1D.dat
+Output:
+
+The given maze is: 
+[ ],[ ],[X],[X]
+[X],[ ],[ ],[ ]
+[X],[ ],[ ],[ ]
+[X],[X],[X],[ ]
+
+The path to be taken by the user: 
+Move 0: Right
+Move 1: Down
+Move 2: Down
+Move 3: Right
+Move 4: Up
+Move 5: Left
+Move 6: Down
+Move 7: Right
+Move 8: Right
+Move 9: Down
+
+Error: Move to position [1,1] places the position in a previously visited cell
+Exit Status: 1
+✗ Test 02 failed (Exit Status: 1)
+
+==============================
+
+Test Case 03: Test03_RevisitingCell
+Maze File: ./tests/Test03_RevisitingCell/Maze2D.dat
+Path File: ./tests/Test03_RevisitingCell/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test03_RevisitingCell/Maze2D.dat ./tests/Test03_RevisitingCell/Path1D.dat
+Output:
+
+The given maze is: 
+[ ],[ ],[X],[X]
+[X],[ ],[ ],[ ]
+[X],[ ],[ ],[ ]
+[X],[X],[X],[ ]
+
+The path to be taken by the user: 
+Move 0: Right
+Move 1: Down
+Move 2: Right
+Move 3: Down
+Move 4: Left
+Move 5: Up
+Move 6: Right
+Move 7: Right
+Move 8: Down
+Move 9: Down
+
+Error: Move to position [1,1] places the position in a previously visited cell
+Exit Status: 1
+✗ Test 03 failed (Exit Status: 1)
+
+==============================
+
+Test Case 04: Test04_RevisitingCell
+Maze File: ./tests/Test04_RevisitingCell/Maze2D.dat
+Path File: ./tests/Test04_RevisitingCell/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test04_RevisitingCell/Maze2D.dat ./tests/Test04_RevisitingCell/Path1D.dat
+Output:
+
+The given maze is: 
+[ ],[ ],[X],[X]
+[X],[ ],[ ],[ ]
+[X],[ ],[ ],[ ]
+[X],[X],[X],[ ]
+
+The path to be taken by the user: 
+Move 0: Right
+Move 1: Down
+Move 2: Down
+Move 3: Right
+Move 4: Up
+Move 5: Right
+Move 6: Down
+Move 7: Left
+Move 8: Up
+Move 9: Right
+Move 10: Down
+Move 11: Down
+
+Error: Move to position [2,2] places the position in a previously visited cell
+Exit Status: 1
+✗ Test 04 failed (Exit Status: 1)
+
+==============================
+
+Test Case 05: Test05_NonzerosInPathAfter0
+Maze File: ./tests/Test05_NonzerosInPathAfter0/Maze2D.dat
+Path File: ./tests/Test05_NonzerosInPathAfter0/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test05_NonzerosInPathAfter0/Maze2D.dat ./tests/Test05_NonzerosInPathAfter0/Path1D.dat
+Output:
+Error: path contains value 1 at position 16 after a zero value
+Error: Could not load path from file: ./tests/Test05_NonzerosInPathAfter0/Path1D.dat
+Exit Status: 1
+✗ Test 05 failed (Exit Status: 1)
+
+==============================
+
+Test Case 06: Test06_InvalidContentsInMazeFile_OtherThan0or1
+Maze File: ./tests/Test06_InvalidContentsInMazeFile_OtherThan0or1/Maze2D.dat
+Path File: ./tests/Test06_InvalidContentsInMazeFile_OtherThan0or1/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test06_InvalidContentsInMazeFile_OtherThan0or1/Maze2D.dat ./tests/Test06_InvalidContentsInMazeFile_OtherThan0or1/Path1D.dat
+Output:
+Error: invalid character '2' in maze file
+Error: Could not load maze from file: ./tests/Test06_InvalidContentsInMazeFile_OtherThan0or1/Maze2D.dat
+Exit Status: 1
+✗ Test 06 failed (Exit Status: 1)
+
+==============================
+
+Test Case 07: Test07_InvalidContentsInMazeFile_TopLeftIs0
+Maze File: ./tests/Test07_InvalidContentsInMazeFile_TopLeftIs0/Maze2D.dat
+Path File: ./tests/Test07_InvalidContentsInMazeFile_TopLeftIs0/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test07_InvalidContentsInMazeFile_TopLeftIs0/Maze2D.dat ./tests/Test07_InvalidContentsInMazeFile_TopLeftIs0/Path1D.dat
+Output:
+Error: Maze entrance is not a path block
+Error: Could not load maze from file: ./tests/Test07_InvalidContentsInMazeFile_TopLeftIs0/Maze2D.dat
+Exit Status: 1
+✗ Test 07 failed (Exit Status: 1)
+
+==============================
+
+Test Case 08: Test08_InvalidContentsInPathFile
+Maze File: ./tests/Test08_InvalidContentsInPathFile/Maze2D.dat
+Path File: ./tests/Test08_InvalidContentsInPathFile/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test08_InvalidContentsInPathFile/Maze2D.dat ./tests/Test08_InvalidContentsInPathFile/Path1D.dat
+Output:
+Error: invalid character '5' in path file at line 1
+Error: Could not load path from file: ./tests/Test08_InvalidContentsInPathFile/Path1D.dat
+Exit Status: 1
+✗ Test 08 failed (Exit Status: 1)
+
+==============================
+
+Test Case 09: Test09_InvalidPathTerminatingElsewhere
+Maze File: ./tests/Test09_InvalidPathTerminatingElsewhere/Maze2D.dat
+Path File: ./tests/Test09_InvalidPathTerminatingElsewhere/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test09_InvalidPathTerminatingElsewhere/Maze2D.dat ./tests/Test09_InvalidPathTerminatingElsewhere/Path1D.dat
+Output:
+
+The given maze is: 
+[ ],[ ],[X],[X]
+[X],[ ],[ ],[ ]
+[X],[ ],[ ],[ ]
+[X],[X],[X],[ ]
+
+The path to be taken by the user: 
+Move 0: Right
+Move 1: Down
+Move 2: Down
+Move 3: Right
+Move 4: Up
+Move 5: Right
+Move 6: Down
+
+Error: Path ended without reaching the destination.
+Exit Status: 1
+✗ Test 09 failed (Exit Status: 1)
+
+==============================
+
+Test Case 10: Test10_InvalidPathHavingMoreNonZeroEntriesEvenAfterReachingEndofMaze
+Maze File: ./tests/Test10_InvalidPathHavingMoreNonZeroEntriesEvenAfterReachingEndofMaze/Maze2D.dat
+Path File: ./tests/Test10_InvalidPathHavingMoreNonZeroEntriesEvenAfterReachingEndofMaze/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test10_InvalidPathHavingMoreNonZeroEntriesEvenAfterReachingEndofMaze/Maze2D.dat ./tests/Test10_InvalidPathHavingMoreNonZeroEntriesEvenAfterReachingEndofMaze/Path1D.dat
+Output:
+
+The given maze is: 
+[ ],[ ],[X],[X]
+[X],[ ],[ ],[ ]
+[X],[ ],[ ],[ ]
+[X],[X],[ ],[ ]
+
+The path to be taken by the user: 
+Move 0: Right
+Move 1: Down
+Move 2: Down
+Move 3: Right
+Move 4: Up
+Move 5: Right
+Move 6: Down
+Move 7: Down
+Move 8: Left
+
+Error: Path contains non-Stop move after reaching the destination at position [3,3]
+Exit Status: 1
+✗ Test 10 failed (Exit Status: 1)
+
+==============================
+
+Test Case 11: Test11_InvalidPathVisitingAnInvalidCell
+Maze File: ./tests/Test11_InvalidPathVisitingAnInvalidCell/Maze2D.dat
+Path File: ./tests/Test11_InvalidPathVisitingAnInvalidCell/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test11_InvalidPathVisitingAnInvalidCell/Maze2D.dat ./tests/Test11_InvalidPathVisitingAnInvalidCell/Path1D.dat
+Output:
+
+The given maze is: 
+[ ],[ ],[X],[X]
+[X],[ ],[ ],[ ]
+[X],[ ],[ ],[ ]
+[X],[X],[X],[ ]
+
+The path to be taken by the user: 
+Move 0: Right
+Move 1: Right
+Move 2: Down
+Move 3: Right
+Move 4: Down
+Move 5: Down
+
+Error: Move to position [0,2] places the position in a no-path cell
+Exit Status: 1
+✗ Test 11 failed (Exit Status: 1)
+
+==============================
+
+Test Case 12: Test12_NonsquareMaze
+Maze File: ./tests/Test12_NonsquareMaze/Maze2D.dat
+Path File: ./tests/Test12_NonsquareMaze/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test12_NonsquareMaze/Maze2D.dat ./tests/Test12_NonsquareMaze/Path1D.dat
+Output:
+Error: the number of values 18 in the file does not form a square maze.
+Error: Could not load maze from file: ./tests/Test12_NonsquareMaze/Maze2D.dat
+Exit Status: 1
+✗ Test 12 failed (Exit Status: 1)
+
+==============================
+
+Test Case 13: Test13_NonsquareMaze
+Maze File: ./tests/Test13_NonsquareMaze/Maze2D.dat
+Path File: ./tests/Test13_NonsquareMaze/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test13_NonsquareMaze/Maze2D.dat ./tests/Test13_NonsquareMaze/Path1D.dat
+Output:
+Error: the number of values 20 in the file does not form a square maze.
+Error: Could not load maze from file: ./tests/Test13_NonsquareMaze/Maze2D.dat
+Exit Status: 1
+✗ Test 13 failed (Exit Status: 1)
+
+==============================
+
+Test Case 14: Test14_MultiplePathsInPathFile
+Maze File: ./tests/Test14_MultiplePathsInPathFile/Maze2D.dat
+Path File: ./tests/Test14_MultiplePathsInPathFile/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test14_MultiplePathsInPathFile/Maze2D.dat ./tests/Test14_MultiplePathsInPathFile/Path1D.dat
+Output:
+Error: multiple path lines found in file ./tests/Test14_MultiplePathsInPathFile/Path1D.dat at line 2
+Error: Could not load path from file: ./tests/Test14_MultiplePathsInPathFile/Path1D.dat
+Exit Status: 1
+✗ Test 14 failed (Exit Status: 1)
+
+==============================
+
+Test Case 15: Test15_TraversesBeyondTheMazeBoundaries
+Maze File: ./tests/Test15_TraversesBeyondTheMazeBoundaries/Maze2D.dat
+Path File: ./tests/Test15_TraversesBeyondTheMazeBoundaries/Path1D.dat
+------------------------------
+Running: ./build/src/Maze_solver ./tests/Test15_TraversesBeyondTheMazeBoundaries/Maze2D.dat ./tests/Test15_TraversesBeyondTheMazeBoundaries/Path1D.dat
+Output:
+
+The given maze is: 
+[ ],[ ],[X],[X]
+[X],[ ],[ ],[ ]
+[X],[ ],[ ],[ ]
+[X],[X],[X],[ ]
+
+The path to be taken by the user: 
+Move 0: Right
+Move 1: Down
+Move 2: Down
+Move 3: Right
+Move 4: Up
+Move 5: Right
+Move 6: Down
+Move 7: Right
+
+Error: Position [2,4] is out of bounds. Maze size is 4x4
+Error: Move from [2,3] to [2,4] is out of maze bounds
+Exit Status: 1
+✗ Test 15 failed (Exit Status: 1)
+
+==============================
+
+All tests completed. Results saved to maze_solver_results.log
